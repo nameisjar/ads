@@ -1,0 +1,515 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "version": "1.0.0",
+        "title": "E-commerce API",
+        "description": "API documentation for an E-commerce application"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:4000/api"
+        }
+    ],
+    "tags": [
+        {
+            "name": "User",
+            "description": "Operations related to users"
+        },
+        {
+            "name": "Product",
+            "description": "Operations related to products"
+        },
+        {
+            "name": "Order",
+            "description": "Operations related to orders"
+        }
+    ],
+    "paths": {
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "create new user",
+                "description": "register a new user",
+                "operationId": "post-register-user",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CreateUser"
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/BasicResponse"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "data": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "username": {
+                                                            "type": "string",
+                                                            "example": "niko"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "niko@gmail.com"
+                                                        },
+                                                        "role": {
+                                                            "type": "string",
+                                                            "example": "seller"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "login user",
+                "description": "login a new user",
+                "operationId": "post-login-user",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/LoginUser"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login Berhasil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/BasicResponse"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "data": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "user": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "username": {
+                                                                    "type": "string",
+                                                                    "example": "niko"
+                                                                },
+                                                                "email": {
+                                                                    "type": "string",
+                                                                    "example": "niko@gmail.com"
+                                                                },
+                                                                "role": {
+                                                                    "type": "string",
+                                                                    "example": "seller"
+                                                                }
+                                                            }
+                                                        },
+                                                        "token": {
+                                                            "type": "string",
+                                                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwibmFtZSI6Ikx1dGF4aSIsImlhdCI6MTY1MjU0NjY5Nn0.2z7i9iJ1s1qT7Nj5wYD9s4jU7Rq5ZbXaM"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/auth/authenticated": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "get authenticated user",
+                "description": "authenticated user | parameters digunakan untuk mengambil data user yang sedang login",
+                "operationId": "get-authenticated-user",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK!"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/products": {
+            "post": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "post new product",
+                "description": "create new product",
+                "operationId": "post-create-product",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CreateProduct"
+                },
+                "responses": {
+                    "201": {
+                        "description": "Product created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/BasicResponse"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "data": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "product": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "name": {
+                                                                    "type": "string",
+                                                                    "example": "sabun dettol"
+                                                                },
+                                                                "description": {
+                                                                    "type": "string",
+                                                                    "example": "Membersihkan sampai 99% kuman"
+                                                                },
+                                                                "price": {
+                                                                    "type": "number",
+                                                                    "example": 10000
+                                                                },
+                                                                "sellerId": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "updatedAt": {
+                                                                    "type": "string",
+                                                                    "example": "2022-01-01T00:00:00.000Z"
+                                                                },
+                                                                "createdAt": {
+                                                                    "type": "string",
+                                                                    "example": "2022-01-01T00:00:00.000Z"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "get all product",
+                "description": "Mendapatkan semua data product | pagination",
+                "operationId": "get-all-product",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query"
+                    },
+                    {
+                        "name": "limit",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK!"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/order": {
+            "post": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "post new order",
+                "description": "create new order",
+                "operationId": "post-create-order",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CreateOrder"
+                },
+                "responses": {
+                    "201": {
+                        "description": "Order created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/BasicResponse"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "data": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "order": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "productId": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "customerId": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "quantity": {
+                                                                    "type": "integer",
+                                                                    "example": 2
+                                                                },
+                                                                "totalAmount": {
+                                                                    "type": "number",
+                                                                    "example": 20000
+                                                                },
+                                                                "updatedAt": {
+                                                                    "type": "string",
+                                                                    "example": "2022-01-01T00:00:00.000Z"
+                                                                },
+                                                                "createdAt": {
+                                                                    "type": "string",
+                                                                    "example": "2022-01-01T00:00:00.000Z"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "get all order",
+                "description": "Mendapatkan semua data order | pagination",
+                "operationId": "get-all-order",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query"
+                    },
+                    {
+                        "name": "limit",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK!"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "BasicResponse": {
+                "title": "BasicResponse",
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "OK!"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        },
+        "requestBodies": {
+            "CreateUser": {
+                "description": "Create User body example",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "username": {
+                                    "type": "string",
+                                    "example": "niko"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "example": "niko@gmail.com"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "example": "niko123"
+                                },
+                                "confirmPassword": {
+                                    "type": "string",
+                                    "example": "niko123"
+                                },
+                                "role": {
+                                    "type": "string",
+                                    "example": "seller or default is customer"
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": true
+            },
+            "LoginUser": {
+                "description": "Login body example",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string",
+                                    "example": "niko@gmail.com"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "example": "niko123"
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": true
+            },
+            "CreateProduct": {
+                "description": "Create Product body example",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "sabun dettol"
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "example": "Membersihkan sampai 99% kuman"
+                                },
+                                "price": {
+                                    "type": "number",
+                                    "example": 10000
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "CreateOrder": {
+                "description": "Create Order body example",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "productId": {
+                                    "type": "number",
+                                    "example": 1
+                                },
+                                "quantity": {
+                                    "type": "number",
+                                    "example": 2
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

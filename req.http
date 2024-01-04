@@ -1,0 +1,65 @@
+# register
+POST http://localhost:4000/api/auth/register
+Content-Type: application/json
+
+{
+    "username": "niko",
+    "email": "seller@gmail.com",
+    "password":"123",
+    "confirmPassword":"123",
+    "role": "seller"
+}
+
+# Login
+###
+POST http://localhost:4000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "seller@gmail.com",
+    "password":"123"
+}
+
+#autentikasi
+###
+GET http://localhost:4000/api/auth/authenticated
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6InNlbGxlciIsImlhdCI6MTcwNDMyNjQ4MiwiZXhwIjoxNzA0MzMwMDgyfQ.dYOaGr_25brtV7y_Ux-kO5Udyk4LzxYGmHymmbn8Ly0
+
+# Melihat daftar user
+###
+GET  http://localhost:4000/api/auth/users
+
+# Tes
+###
+GET http://localhost:4000/
+
+# Membuat produk
+###
+POST http://localhost:4000/api/products
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6InNlbGxlciIsImlhdCI6MTcwNDMyMjM3NSwiZXhwIjoxNzA0MzI1OTc1fQ.tlKEo9O37yHKi7Ya24sqYlfyRJascmEQjG4ShYn_WnM
+
+{
+    "name": "teh pucuk",
+    "description": "minuman teh segar",
+    "price": 5000
+}
+
+# Melihat daftar produk
+###
+GET http://localhost:4000/api/products?page=1&limit=10
+
+# Checkout
+###
+POST http://localhost:4000/api/order
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Nywicm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNzA0MzMzOTI4LCJleHAiOjE3MDQzMzc1Mjh9.-90q_Zwv58KEG3RKw2QQIwnGI3Pw4BvTkkz2J6ybTPw
+
+{
+    "productId": 5,
+    "quantity": 1
+}
+
+###
+GET http://localhost:4000/api/order?page=1&limit=10
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6InNlbGxlciIsImlhdCI6MTcwNDMyMjM3NSwiZXhwIjoxNzA0MzI1OTc1fQ.tlKEo9O37yHKi7Ya24sqYlfyRJascmEQjG4ShYn_WnM
