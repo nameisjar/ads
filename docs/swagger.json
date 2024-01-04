@@ -393,6 +393,13 @@
                             "type": "string"
                         },
                         "in": "query"
+                    },
+                    {
+                        "name": "search",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query"
                     }
                 ],
                 "responses": {
