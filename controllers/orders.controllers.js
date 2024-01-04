@@ -20,8 +20,16 @@ const createOrder = async (req, res) => {
     if (!product) {
       return res.status(404).json({
         status: false,
-        message: 'Product not found',
+        message: 'Not Found',
         error: 'Product not found'
+      });
+    }
+
+    if (product.stock < quantity) {
+      return res.status(400).json({
+        status: false,
+        message: 'Bad Request',
+        error: 'Not enough stock available for the requested quantity',
       });
     }
 
@@ -33,6 +41,8 @@ const createOrder = async (req, res) => {
       quantity,
       totalAmount,
     });
+
+    await product.update({ stock: product.stock - quantity });
 
     res.status(201).json({
       status: true,
@@ -47,10 +57,20 @@ const createOrder = async (req, res) => {
 const getSellerOrders = async (req, res, next) => {
   try {
     const user = req.user;
-    let { page = 1, limit = 10 } = req.query;
+    let { search, page = 1, limit = 10 } = req.query;
     limit = Number(limit);
     page = Number(page);
+
+    const searchWhere = {
+      [db.Sequelize.Op.or]: [
+        { code: { [db.Sequelize.Op.like]: `%${search}%` } },
+        { name: { [db.Sequelize.Op.like]: `%${search}%` } },
+        { description: { [db.Sequelize.Op.like]: `%${search}%` } },
+      ],
+    };
+
     const sellerOrders = await db.Order.findAndCountAll({
+      where: search ? searchWhere : null,
       include: [
         {
           model: db.Product,

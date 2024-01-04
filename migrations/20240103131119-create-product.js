@@ -9,6 +9,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      code: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
+      },
       name: {
         type: Sequelize.STRING,
         allowNull: true,
@@ -29,6 +34,15 @@ module.exports = {
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
+      },
+      image: {
+        type: Sequelize.STRING, 
+        allowNull: true,
+      },
+      stock: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
       },
       createdAt: {
         allowNull: false,

@@ -200,6 +200,14 @@
                                                         "product": {
                                                             "type": "object",
                                                             "properties": {
+                                                                "image": {
+                                                                    "type": "string",
+                                                                    "example": "https://res.cloudinary.com/dcudzvnhm/image/upload/v1704363798/bjnbu6rwxhycepq5prm4.jpg"
+                                                                },
+                                                                "code": {
+                                                                    "type": "string",
+                                                                    "example": "P0001"
+                                                                },
                                                                 "name": {
                                                                     "type": "string",
                                                                     "example": "sabun dettol"
@@ -215,6 +223,10 @@
                                                                 "sellerId": {
                                                                     "type": "integer",
                                                                     "example": 1
+                                                                },
+                                                                "stock": {
+                                                                    "type": "integer",
+                                                                    "example": 100
                                                                 },
                                                                 "updatedAt": {
                                                                     "type": "string",
@@ -257,6 +269,13 @@
                     },
                     {
                         "name": "limit",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query"
+                    },
+                    {
+                        "name": "search",
                         "schema": {
                             "type": "string"
                         },
@@ -469,10 +488,18 @@
             "CreateProduct": {
                 "description": "Create Product body example",
                 "content": {
-                    "application/json": {
+                    "multipart/form-data": {
                         "schema": {
                             "type": "object",
                             "properties": {
+                                "image": {
+                                    "type": "string",
+                                    "format": "binary"
+                                },
+                                "code": {
+                                    "type": "string",
+                                    "example": "DT-01"
+                                },
                                 "name": {
                                     "type": "string",
                                     "example": "sabun dettol"
@@ -484,6 +511,10 @@
                                 "price": {
                                     "type": "number",
                                     "example": 10000
+                                },
+                                "stock": {
+                                    "type": "integer",
+                                    "example": 100
                                 }
                             }
                         }

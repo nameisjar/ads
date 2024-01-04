@@ -23,7 +23,7 @@ Content-Type: application/json
 #autentikasi
 ###
 GET http://localhost:4000/api/auth/authenticated
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6InNlbGxlciIsImlhdCI6MTcwNDMyNjQ4MiwiZXhwIjoxNzA0MzMwMDgyfQ.dYOaGr_25brtV7y_Ux-kO5Udyk4LzxYGmHymmbn8Ly0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6InNlbGxlciIsImlhdCI6MTcwNDM1OTgwNSwiZXhwIjoxNzA0MzYzNDA1fQ.DiJx8E4mf9tXtYQ-om6I4Wisaa0aiSFSUtLTb9Y20Qc
 
 # Melihat daftar user
 ###
@@ -37,12 +37,13 @@ GET http://localhost:4000/
 ###
 POST http://localhost:4000/api/products
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6InNlbGxlciIsImlhdCI6MTcwNDMyMjM3NSwiZXhwIjoxNzA0MzI1OTc1fQ.tlKEo9O37yHKi7Ya24sqYlfyRJascmEQjG4ShYn_WnM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6InNlbGxlciIsImlhdCI6MTcwNDM1OTgwNSwiZXhwIjoxNzA0MzYzNDA1fQ.DiJx8E4mf9tXtYQ-om6I4Wisaa0aiSFSUtLTb9Y20Qc
 
 {
-    "name": "teh pucuk",
-    "description": "minuman teh segar",
-    "price": 5000
+    "name": "Makaroni Udang",
+    "description": "Kerupuk makaroni yang berasal dari udang",
+    "price": 3000,
+    "stock": 10
 }
 
 # Melihat daftar produk
@@ -53,10 +54,10 @@ GET http://localhost:4000/api/products?page=1&limit=10
 ###
 POST http://localhost:4000/api/order
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Nywicm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNzA0MzMzOTI4LCJleHAiOjE3MDQzMzc1Mjh9.-90q_Zwv58KEG3RKw2QQIwnGI3Pw4BvTkkz2J6ybTPw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6InNlbGxlciIsImlhdCI6MTcwNDM1OTgwNSwiZXhwIjoxNzA0MzYzNDA1fQ.DiJx8E4mf9tXtYQ-om6I4Wisaa0aiSFSUtLTb9Y20Qc
 
 {
-    "productId": 5,
+    "productId": 2,
     "quantity": 1
 }
 
