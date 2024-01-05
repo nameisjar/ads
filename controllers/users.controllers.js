@@ -33,10 +33,14 @@ const register = async (req, res, next) => {
             role,
         });
 
+        const token = jwt.sign({ id: newUser.id }, JWT_SECRET, {
+            expiresIn: '1d'
+        })
+
         res.status(201).json({
             status: true,
             message: 'User created successfully',
-            data: newUser
+            data: { newUser, token }
         });
     } catch (error) {
         next(error);

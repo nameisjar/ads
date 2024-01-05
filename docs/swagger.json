@@ -63,6 +63,10 @@
                                                         "role": {
                                                             "type": "string",
                                                             "example": "seller"
+                                                        },
+                                                        "token": {
+                                                            "type": "string",
+                                                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwibmFtZSI6Ikx1dGF4aSIsImlhdCI6MTY1MjU0NjY5Nn0.2z7i9iJ1s1qT7Nj5wYD9s4jU7Rq5ZbXaM"
                                                         }
                                                     }
                                                 }
