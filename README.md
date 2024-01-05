@@ -2,11 +2,11 @@ Selamat datang di repositori SimpleECommerceAPI! Repositori ini berisi kode sumb
 
 Panduan Pengguna
 1. Clone Repositori
-git clone https://github.com/nameisjar/ads.git
+> Lakukan git clone https://github.com/nameisjar/ads.git pada terminal
 
 2. Instalasi Dependensi
-cd ads
-npm install
+> lakukan cd ads
+> Kemudian npm install
 
 3. Konfigurasi Database
 > Buat file .env 
