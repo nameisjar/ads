@@ -19,4 +19,10 @@ Panduan Pengguna
 5. Jalankan seeder
 > Lakukan npx sequelize-cli db:seed:all untuk mengisi data ke database
 
+6. Jalankan aplikasi
+> Lakukan npm run dev
+
+7. Buka dokumentasi di Swagger
+> http://localhost:3000/docs
+
 Note: Jika ingin bisa upload image, maka gunakan kode dari masing-masing akun yang didapat dari cloudinary
