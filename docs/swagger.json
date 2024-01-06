@@ -331,17 +331,13 @@
                                                         "order": {
                                                             "type": "object",
                                                             "properties": {
-                                                                "productId": {
+                                                                "id": {
                                                                     "type": "integer",
                                                                     "example": 1
                                                                 },
                                                                 "customerId": {
                                                                     "type": "integer",
                                                                     "example": 1
-                                                                },
-                                                                "quantity": {
-                                                                    "type": "integer",
-                                                                    "example": 2
                                                                 },
                                                                 "totalAmount": {
                                                                     "type": "number",
@@ -393,13 +389,6 @@
                     },
                     {
                         "name": "limit",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "in": "query"
-                    },
-                    {
-                        "name": "search",
                         "schema": {
                             "type": "string"
                         },

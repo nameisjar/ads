@@ -89,31 +89,22 @@ const createOrder = async (req, res, next) => {
 const getSellerOrders = async (req, res, next) => {
   try {
     const user = req.user;
-    let { search, page = 1, limit = 10 } = req.query;
+    let { page = 1, limit = 10 } = req.query;
     limit = Number(limit);
     page = Number(page);
 
-    const searchWhere = {
-      [db.Sequelize.Op.or]: [
-        { code: { [db.Sequelize.Op.like]: `%${search}%` } },
-        { name: { [db.Sequelize.Op.like]: `%${search}%` } },
-        { description: { [db.Sequelize.Op.like]: `%${search}%` } },
-      ],
-    };
-
     const sellerOrders = await db.Order.findAndCountAll({
-      where: search ? searchWhere : null,
       include: [
         {
           model: db.OrderItem,  
           include: [
             {
               model: db.Product,
+              attributes: ['image', 'name', 'price'],
               where: { sellerId: user.id },
             },
           ],
-        },
-        { model: db.User },
+        }
       ],
       offset: (page - 1) * limit,
       limit,
