@@ -2,47 +2,80 @@
 const db = require('../models/index');
 const getPagination = require('../utils/pagination');
 
-const createOrder = async (req, res) => {
+const createOrder = async (req, res, next) => {
   try {
     const user = req.user;
-    const { productId, quantity } = req.body;
+    const { orderItems } = req.body;
 
-    if (!quantity || quantity <= 0) {
+    // Validasi orderItems
+    if (!orderItems || !Array.isArray(orderItems) || orderItems.length === 0) {
       return res.status(400).json({
         status: false,
         message: 'Bad Request',
-        error: 'Quantity should be greater than 0'
+        error: 'OrderItems should be a non-empty array',
       });
     }
 
-    const product = await db.Product.findByPk(productId);
+    // Iterasi untuk memproses setiap orderItem
+    const processedOrderItems = [];
+    let totalAmount = 0;
 
-    if (!product) {
-      return res.status(404).json({
-        status: false,
-        message: 'Not Found',
-        error: 'Product not found'
+    for (const item of orderItems) {
+      const { productId, quantity } = item;
+
+      // Validasi quantity
+      if (!quantity || quantity <= 0) {
+        return res.status(400).json({
+          status: false,
+          message: 'Bad Request',
+          error: 'Quantity should be greater than 0',
+        });
+      }
+
+      const product = await db.Product.findByPk(productId);
+
+      // Validasi product
+      if (!product) {
+        return res.status(404).json({
+          status: false,
+          message: 'Not Found',
+          error: `Product with ID ${productId} not found`,
+        });
+      }
+
+      // Validasi stok
+      if (product.stock < quantity) {
+        return res.status(400).json({
+          status: false,
+          message: 'Bad Request',
+          error: `Not enough stock available for the requested quantity of product with ID ${productId}`,
+        });
+      }
+
+      // Hitung totalAmount untuk setiap orderItem
+      totalAmount += product.price * quantity;
+
+      // Tambahkan orderItem ke dalam array processedOrderItems
+      processedOrderItems.push({
+        productId,
+        quantity,
       });
+
+      // Kurangi stok produk
+      await product.update({ stock: product.stock - quantity });
     }
 
-    if (product.stock < quantity) {
-      return res.status(400).json({
-        status: false,
-        message: 'Bad Request',
-        error: 'Not enough stock available for the requested quantity',
-      });
-    }
-
-    const totalAmount = product.price * quantity;
-
+    // Buat order dan sertakan orderItems
     const newOrder = await db.Order.create({
-      productId,
       customerId: user.id,
-      quantity,
       totalAmount,
+      orderItems: processedOrderItems,
+    }, {
+      include: [db.OrderItem], // Menyertakan OrderItems dalam proses pembuatan Order
     });
 
-    await product.update({ stock: product.stock - quantity });
+    // Menyertakan OrderItems ke dalam Order
+    await newOrder.setOrderItems(newOrder.orderItems);
 
     res.status(201).json({
       status: true,
@@ -53,6 +86,7 @@ const createOrder = async (req, res) => {
     next(error);
   }
 };
+
 
 const getSellerOrders = async (req, res, next) => {
   try {
