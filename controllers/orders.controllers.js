@@ -60,22 +60,19 @@ const createOrder = async (req, res, next) => {
         productId,
         quantity,
       });
-
-      // Kurangi stok produk
-      await product.update({ stock: product.stock - quantity });
     }
 
-    // Buat order dan sertakan orderItems
+    // Buat order
     const newOrder = await db.Order.create({
       customerId: user.id,
       totalAmount,
-      orderItems: processedOrderItems,
-    }, {
-      include: [db.OrderItem], // Menyertakan OrderItems dalam proses pembuatan Order
     });
 
-    // Menyertakan OrderItems ke dalam Order
-    await newOrder.setOrderItems(newOrder.orderItems);
+    // Buat orderItems
+    const createdOrderItems = await db.OrderItem.bulkCreate(processedOrderItems);
+
+    // Associate orderItems with the order
+    await newOrder.setOrderItems(createdOrderItems);
 
     res.status(201).json({
       status: true,
@@ -86,6 +83,7 @@ const createOrder = async (req, res, next) => {
     next(error);
   }
 };
+
 
 
 const getSellerOrders = async (req, res, next) => {
@@ -107,14 +105,19 @@ const getSellerOrders = async (req, res, next) => {
       where: search ? searchWhere : null,
       include: [
         {
-          model: db.Product,
-          where: { sellerId: user.id },
+          model: db.OrderItem,  
+          include: [
+            {
+              model: db.Product,
+              where: { sellerId: user.id },
+            },
+          ],
         },
         { model: db.User },
       ],
       offset: (page - 1) * limit,
       limit,
-    })
+    });
 
     if (sellerOrders.count === 0) {
       return res.status(404).json({
@@ -134,5 +137,6 @@ const getSellerOrders = async (req, res, next) => {
     next(error);
   }
 };
+
 
 module.exports = { createOrder, getSellerOrders };
